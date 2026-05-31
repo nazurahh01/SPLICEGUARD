@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpliceGuard | Admin Console</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .soft-grid {
+            background-image:
+                linear-gradient(rgba(14, 165, 233, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(14, 165, 233, 0.08) 1px, transparent 1px);
+            background-size: 34px 34px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.86);
+            backdrop-filter: blur(18px);
+        }
+
+        .hero-orb {
+            background:
+                radial-gradient(circle at 16% 18%, rgba(14, 165, 233, 0.22), transparent 34%),
+                radial-gradient(circle at 85% 12%, rgba(99, 102, 241, 0.16), transparent 34%),
+                radial-gradient(circle at 58% 88%, rgba(16, 185, 129, 0.13), transparent 30%);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-sky-50 text-slate-900 soft-grid selection:bg-sky-200 selection:text-slate-950">
+
+    <!-- BACKGROUND DECORATION -->
+    <div class="fixed inset-0 -z-10 overflow-hidden">
+        <div class="absolute -top-32 -left-24 h-96 w-96 rounded-full bg-sky-200/70 blur-3xl"></div>
+        <div class="absolute top-28 -right-24 h-[30rem] w-[30rem] rounded-full bg-indigo-200/60 blur-3xl"></div>
+        <div class="absolute bottom-0 left-1/3 h-80 w-80 rounded-full bg-emerald-100/80 blur-3xl"></div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-50 border-b border-sky-100/80 bg-white/80 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-4 flex items-center justify-between gap-6">
+            <a href="/" class="flex items-center gap-3 group">
+                <div class="h-11 w-11 rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-600 shadow-lg shadow-sky-300/40 flex items-center justify-center text-white font-black text-lg group-hover:scale-105 transition">
+                    SG
+                </div>
+                <div>
+                    <p class="text-[0.68rem] uppercase tracking-[0.28em] text-sky-600 font-extrabold">Administrative Monitoring</p>
+                    <h1 class="text-xl font-extrabold tracking-tight text-slate-950">SpliceGuard Admin Console</h1>
+                </div>
+            </a>
+
+            <nav class="flex items-center gap-2 text-sm">
+
+                <a href="/admin"
+                class="px-4 py-2.5 rounded-full border border-sky-200 bg-white text-slate-700 font-semibold hover:border-sky-400 hover:text-sky-700 transition">
+                    Admin Dashboard
+                </a>
+
+                <a href="/admin-history"
+                class="px-4 py-2.5 rounded-full border border-sky-200 bg-white text-slate-700 font-semibold hover:border-sky-400 hover:text-sky-700 transition">
+                    Case History
+                </a>
+
+                <a href="/admin-scan"
+                class="px-4 py-2.5 rounded-full border border-sky-200 bg-white text-slate-700 font-semibold hover:border-sky-400 hover:text-sky-700 transition">
+                    New Scan
+                </a>
+
+                <a href="/logout"
+                class="px-4 py-2.5 rounded-full bg-slate-950 text-white font-semibold hover:bg-slate-800 transition shadow-lg shadow-slate-300/40">
+                    Logout
+                </a>
+
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-7xl mx-auto px-6 lg:px-8 py-10 lg:py-14 space-y-8">
+
+        <!-- HERO / OVERVIEW -->
+        <section class="relative overflow-hidden rounded-[2rem] border border-white/80 bg-white shadow-2xl shadow-sky-100/80 hero-orb p-8 lg:p-10">
+            <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+                <div>
+                    <div class="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.2em] text-sky-700 mb-5">
+                        <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        System Overview
+                    </div>
+                    <h2 class="text-4xl lg:text-5xl font-black tracking-tight text-slate-950 leading-tight">
+                        Monitor SpliceGuard activity in one clean console.
+                    </h2>
+                    <p class="mt-4 max-w-2xl text-sm md:text-base leading-7 text-slate-600">
+                        View operational statistics, user activity, flagged submissions, confidence scores, and recent forensic image-screening outputs.
+                    </p>
+                </div>
+
+                <div class="rounded-3xl border border-sky-100 bg-white/75 p-5 shadow-sm min-w-[220px]">
+                    <p class="text-xs uppercase tracking-[0.2em] text-slate-400 font-black">Console Mode</p>
+                    <p class="mt-2 text-2xl font-black text-slate-950">Admin</p>
+                    <p class="mt-1 text-xs text-slate-500">Monitoring access only</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- STATISTICS -->
+        <section class="grid sm:grid-cols-2 xl:grid-cols-5 gap-4">
+            <div class="rounded-[1.7rem] border border-sky-100 bg-white/85 p-6 shadow-xl shadow-sky-100/70">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <p class="text-xs uppercase tracking-[0.2em] text-slate-400 font-black">Total Analyses</p>
+                        <p class="mt-4 text-5xl font-black tracking-tight text-slate-950">{{ total_scans }}</p>
+                    </div>
+                    <div class="h-12 w-12 rounded-2xl bg-sky-50 border border-sky-100 flex items-center justify-center text-2xl">
+                        📊
+                    </div>
+                </div>
+                <p class="mt-4 text-sm leading-6 text-slate-500">Total image submissions processed by the system.</p>
+            </div>
+
+            <div class="rounded-[1.7rem] border border-rose-200 bg-gradient-to-br from-white to-rose-50 p-6 shadow-xl shadow-rose-100/70">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <p class="text-xs uppercase tracking-[0.2em] text-rose-500 font-black">Splicing Flagged</p>
+                        <p class="mt-4 text-5xl font-black tracking-tight text-rose-700">{{ total_forgery }}</p>
+                    </div>
+                    <div class="h-12 w-12 rounded-2xl bg-rose-50 border border-rose-100 flex items-center justify-center text-2xl">
+                        ⚠️
+                    </div>
+                </div>
+                <p class="mt-4 text-sm leading-6 text-rose-700/80">Submissions classified as possible splicing cases.</p>
+            </div>
+
+            <div class="rounded-[1.7rem] border border-indigo-100 bg-white/85 p-6 shadow-xl shadow-indigo-100/60">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <p class="text-xs uppercase tracking-[0.2em] text-slate-400 font-black">Active Users</p>
+                        <p class="mt-4 text-5xl font-black tracking-tight text-slate-950">{{ active_users }}</p>
+                    </div>
+                    <div class="h-12 w-12 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-2xl">
+                        👥
+                    </div>
+                </div>
+                <p class="mt-4 text-sm leading-6 text-slate-500">Registered users with recorded system activity.</p>
+            </div>
+
+            <div class="rounded-[1.7rem] border border-indigo-100 bg-white/85 p-6 shadow-xl shadow-indigo-100/60">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <p class="text-xs uppercase tracking-[0.2em] text-slate-400 font-black">
+                            Guest Users Today
+                        </p>
+
+                        <p class="mt-4 text-5xl font-black tracking-tight text-slate-950">
+                            {{ guest_today }}
+                        </p>
+                    </div>
+
+                    <div class="h-12 w-12 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-2xl">
+                        🌐
+                    </div>
+                </div>
+
+                <p class="mt-4 text-sm leading-6 text-slate-500">
+                    Anonymous visitors using the forensic screening tool today.
+                </p>
+            </div>
+
+            <div class="rounded-[1.7rem] border border-emerald-200 bg-gradient-to-br from-white to-emerald-50 p-6 shadow-xl shadow-emerald-100/70">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <p class="text-xs uppercase tracking-[0.2em] text-emerald-600 font-black">Model Validation</p>
+                        <p class="mt-4 text-5xl font-black tracking-tight text-emerald-700">85%</p>
+                    </div>
+                    <div class="h-12 w-12 rounded-2xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-2xl">
+                        ✅
+                    </div>
+                </div>
+                <p class="mt-4 text-sm leading-6 text-emerald-700/80">Reference accuracy on validation dataset.</p>
+            </div>
+        </section>
+
+        <div class="flex flex-col lg:flex-row gap-4 justify-between items-center mb-6">
+
+    <form method="GET" class="flex flex-col sm:flex-row gap-3 w-full">
+
+        <!-- Search User -->
+        <input
+            type="text"
+            name="search"
+            placeholder="Search username..."
+            value="{{ request.args.get('search', '') }}"
+            class="px-4 py-3 rounded-2xl border border-slate-200 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-300 w-full sm:w-72"
+        >
+
+        <!-- Date Filter -->
+        <input
+            type="date"
+            name="date"
+            value="{{ request.args.get('date', '') }}"
+            class="px-4 py-3 rounded-2xl border border-slate-200 bg-white text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-300"
+        >
+
+        <!-- Submit -->
+        <button
+            type="submit"
+            class="px-5 py-3 rounded-2xl bg-slate-950 text-white font-semibold hover:bg-slate-800 transition"
+        >
+            Search
+        </button>
+
+        <!-- Reset -->
+        <a
+            href="/admin"
+            class="px-5 py-3 rounded-2xl border border-slate-200 bg-white text-slate-700 font-semibold hover:border-sky-300 hover:text-sky-700 transition text-center"
+        >
+            Reset
+        </a>
+
+    </form>
+
+</div>
+
+
+        <!-- ACTIVITY LOG -->
+        <section class="rounded-[2rem] border border-white/80 glass-card shadow-2xl shadow-sky-100/80 overflow-hidden">
+            <div class="px-6 lg:px-8 py-6 border-b border-sky-100 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h3 class="text-2xl font-black text-slate-950">Upload Activity Log</h3>
+                    <p class="mt-1 text-sm text-slate-500">Recent submissions, users, filenames, model outputs, and confidence scores.</p>
+                </div>
+
+                <div class="rounded-full border border-sky-100 bg-white px-4 py-2 text-xs font-extrabold uppercase tracking-[0.16em] text-sky-700">
+                    Recent Monitoring
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full min-w-[920px] text-sm">
+                    <thead>
+                        <tr class="bg-sky-50/80 border-b border-sky-100">
+                            <th class="px-6 py-4 text-left text-xs font-black uppercase tracking-[0.2em] text-slate-500">Timestamp</th>
+                            <th class="px-6 py-4 text-left text-xs font-black uppercase tracking-[0.2em] text-slate-500">User</th>
+                            <th class="px-6 py-4 text-left text-xs font-black uppercase tracking-[0.2em] text-slate-500">Filename</th>
+                            <th class="px-6 py-4 text-left text-xs font-black uppercase tracking-[0.2em] text-slate-500">Result</th>
+                            <th class="px-6 py-4 text-left text-xs font-black uppercase tracking-[0.2em] text-slate-500">Confidence</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="divide-y divide-slate-100 bg-white/70">
+                        {% for item in history %}
+                        <tr class="hover:bg-sky-50/70 transition {% if 'Spliced' in item.result %}bg-rose-50/40{% endif %}">
+                            <td class="px-6 py-5 text-slate-600 whitespace-nowrap">{{ item.timestamp }}</td>
+                            <td class="px-6 py-5">
+                                <span class="inline-flex items-center gap-2 rounded-full border border-sky-100 bg-white px-3 py-1.5 font-extrabold text-slate-700 shadow-sm">
+                                    <span class="h-2 w-2 rounded-full bg-sky-500"></span>
+                                    {{ item.user }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-5 font-mono text-xs text-slate-700 break-all max-w-xs">{{ item.filename }}</td>
+                            <td class="px-6 py-5">
+                                {% if 'Spliced' in item.result %}
+                                    <span class="inline-flex items-center gap-2 rounded-full border border-rose-200 bg-rose-50 px-4 py-2 text-xs font-extrabold text-rose-700">
+                                        <span class="h-2 w-2 rounded-full bg-rose-500"></span>
+                                        {{ item.result }}
+                                    </span>
+                                {% elif 'Authentic' in item.result %}
+                                    <span class="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-xs font-extrabold text-emerald-700">
+                                        <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                                        {{ item.result }}
+                                    </span>
+                                {% else %}
+                                    <span class="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-xs font-extrabold text-amber-700">
+                                        <span class="h-2 w-2 rounded-full bg-amber-500"></span>
+                                        {{ item.result }}
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-5">
+                                <div class="min-w-[130px]">
+                                    <div class="flex items-center justify-between gap-3 mb-2">
+                                        <span class="font-black text-slate-900">{{ item.confidence }}%</span>
+                                    </div>
+                                    <div class="h-2.5 rounded-full bg-slate-100 border border-slate-100 overflow-hidden">
+                                        <div class="h-full rounded-full
+                                            {% if 'Spliced' in item.result %}
+                                                bg-rose-500
+                                            {% elif 'Authentic' in item.result %}
+                                                bg-emerald-500
+                                            {% else %}
+                                                bg-amber-500
+                                            {% endif %}
+                                        " style="width: {{ item.confidence }}%;"></div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                        {% if history|length == 0 %}
+                        <tr>
+                            <td colspan="5" class="px-6 py-16 text-center">
+                                <div class="mx-auto max-w-md">
+                                    <div class="mx-auto mb-5 h-16 w-16 rounded-3xl border border-sky-100 bg-sky-50 flex items-center justify-center text-3xl shadow-sm">
+                                        🗂️
+                                    </div>
+                                    <h3 class="text-2xl font-black text-slate-950">No uploads recorded yet</h3>
+                                    <p class="mt-3 text-sm leading-6 text-slate-500">
+                                        Upload activity will appear here after users submit images for SpliceGuard analysis.
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- FOOTNOTE -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="text-xs leading-5 text-slate-500">
+                Administrative statistics support monitoring and should be cross-checked with stored reports for formal review.
+            </p>
+            <a href="/logout" class="inline-flex items-center justify-center rounded-full border border-sky-200 bg-white px-5 py-3 text-sm font-extrabold text-slate-700 hover:border-sky-400 hover:text-sky-700 transition">
+                Logout
+            </a>
+        </div>
+    </main>
+
+</body>
+
+</html>

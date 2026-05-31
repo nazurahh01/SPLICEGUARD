@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>OTP Verification - SpliceGuard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Verify your OTP for SpliceGuard account access.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .soft-grid {
+            background-image:
+                linear-gradient(rgba(14, 165, 233, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(14, 165, 233, 0.08) 1px, transparent 1px);
+            background-size: 34px 34px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.84);
+            backdrop-filter: blur(18px);
+        }
+
+        .hero-orb {
+            background:
+                radial-gradient(circle at 16% 18%, rgba(14, 165, 233, 0.24), transparent 34%),
+                radial-gradient(circle at 85% 12%, rgba(99, 102, 241, 0.18), transparent 34%),
+                radial-gradient(circle at 58% 88%, rgba(16, 185, 129, 0.14), transparent 30%);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-sky-50 text-slate-900 soft-grid selection:bg-sky-200 selection:text-slate-950">
+
+    <!-- BACKGROUND DECORATION -->
+    <div class="fixed inset-0 -z-10 overflow-hidden">
+        <div class="absolute -top-32 -left-24 h-96 w-96 rounded-full bg-sky-200/70 blur-3xl"></div>
+        <div class="absolute top-28 -right-24 h-[30rem] w-[30rem] rounded-full bg-indigo-200/60 blur-3xl"></div>
+        <div class="absolute bottom-0 left-1/3 h-80 w-80 rounded-full bg-emerald-100/80 blur-3xl"></div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-50 border-b border-sky-100/80 bg-white/80 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-4 flex items-center justify-between gap-6">
+            <a href="/" class="flex items-center gap-3 group">
+                <div class="h-11 w-11 rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-600 shadow-lg shadow-sky-300/40 flex items-center justify-center text-white font-black text-lg group-hover:scale-105 transition">
+                    SG
+                </div>
+                <div>
+                    <p class="text-[0.68rem] uppercase tracking-[0.28em] text-sky-600 font-extrabold">Forensic Analysis Suite</p>
+                    <h1 class="text-xl font-extrabold tracking-tight text-slate-950">SpliceGuard</h1>
+                </div>
+            </a>
+
+            <nav class="flex items-center gap-2 text-sm">
+                <a href="{{ url_for('login') }}" class="px-4 py-2.5 rounded-full border border-sky-200 bg-white text-slate-700 font-semibold hover:border-sky-400 hover:text-sky-700 transition">
+                    Back to Login
+                </a>
+                <a href="{{ url_for('resend_otp') }}" class="px-4 py-2.5 rounded-full bg-slate-950 text-white font-semibold hover:bg-slate-800 transition shadow-lg shadow-slate-300/40">
+                    Resend OTP
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN OTP CONTENT -->
+    <main class="max-w-7xl mx-auto px-6 lg:px-8 py-10 lg:py-14">
+        <section class="grid lg:grid-cols-[1.05fr_0.95fr] gap-8 items-stretch">
+
+            <!-- LEFT BRAND PANEL -->
+            <div class="relative overflow-hidden rounded-[2rem] border border-white/80 bg-white shadow-2xl shadow-sky-100/80 hero-orb p-8 lg:p-11 flex flex-col justify-between min-h-[36rem]">
+                <div>
+                    <div class="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.2em] text-sky-700 mb-7">
+                        <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Account verification
+                    </div>
+
+                    <h2 class="text-4xl lg:text-6xl font-black leading-[1.02] tracking-tight text-slate-950 max-w-4xl">
+                        Verify your access before entering SpliceGuard.
+                    </h2>
+
+                    <p class="mt-6 text-lg text-slate-600 max-w-2xl leading-8">
+                        Enter the six-digit code sent to your email address. This step protects account activation, password recovery, and access to the forensic image analysis workspace.
+                    </p>
+                </div>
+
+                <div class="mt-10 grid sm:grid-cols-3 gap-4">
+                    <div class="rounded-3xl border border-sky-100 bg-white/75 p-5 shadow-sm">
+                        <p class="text-xs uppercase tracking-[0.2em] text-slate-400 font-bold">Code</p>
+                        <p class="mt-2 font-extrabold text-slate-950">6 Digits</p>
+                    </div>
+                    <div class="rounded-3xl border border-indigo-100 bg-white/75 p-5 shadow-sm">
+                        <p class="text-xs uppercase tracking-[0.2em] text-slate-400 font-bold">Purpose</p>
+                        <p class="mt-2 font-extrabold text-slate-950">Secure Access</p>
+                    </div>
+                    <div class="rounded-3xl border border-emerald-100 bg-white/75 p-5 shadow-sm">
+                        <p class="text-xs uppercase tracking-[0.2em] text-slate-400 font-bold">Method</p>
+                        <p class="mt-2 font-extrabold text-slate-950">Email OTP</p>
+                    </div>
+                </div>
+
+                <div class="mt-8 rounded-3xl border border-sky-100 bg-white/70 p-5">
+                    <p class="text-sm font-bold text-slate-900">Verification note</p>
+                    <p class="mt-2 text-sm leading-6 text-slate-600">
+                        Use the most recent OTP code only. If the code has expired or was not received, request a new code using the resend option.
+                    </p>
+                </div>
+            </div>
+
+            <!-- OTP FORM PANEL -->
+            <div class="rounded-[2rem] border border-white/80 glass-card shadow-2xl shadow-sky-100/80 p-6 sm:p-8 lg:p-10 flex flex-col justify-center">
+                <div class="mb-8">
+                    <p class="text-sm font-extrabold text-sky-700">OTP Verification</p>
+                    <h2 class="mt-1 text-4xl font-black tracking-tight text-slate-950">Enter verification code</h2>
+                    <p class="mt-3 text-sm leading-6 text-slate-600">
+                        Type or paste the six-digit code sent to your registered email address.
+                    </p>
+                </div>
+
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                    <div class="mb-5 rounded-3xl border border-rose-200 bg-rose-50 px-5 py-4 text-sm text-rose-700 shadow-sm">
+                        <p class="font-extrabold text-rose-800">Verification notice</p>
+                        <p class="mt-1">{{ messages[0] }}</p>
+                    </div>
+                    {% endif %}
+                {% endwith %}
+
+                <form method="POST" id="otpForm" class="space-y-6">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                    <input type="hidden" name="otp" id="fullOtp">
+
+                    <div>
+                        <label class="block text-sm font-extrabold text-slate-700 mb-3">Verification Code</label>
+                        <div class="grid grid-cols-6 gap-2 sm:gap-3">
+                            <input type="text" maxlength="1" class="otp-input h-14 sm:h-16 rounded-2xl border border-sky-100 bg-white text-center text-xl sm:text-2xl font-black text-slate-900 outline-none shadow-sm transition focus:border-sky-500 focus:ring-4 focus:ring-sky-100" required inputmode="numeric" autocomplete="one-time-code" aria-label="OTP digit 1">
+                            <input type="text" maxlength="1" class="otp-input h-14 sm:h-16 rounded-2xl border border-sky-100 bg-white text-center text-xl sm:text-2xl font-black text-slate-900 outline-none shadow-sm transition focus:border-sky-500 focus:ring-4 focus:ring-sky-100" required inputmode="numeric" aria-label="OTP digit 2">
+                            <input type="text" maxlength="1" class="otp-input h-14 sm:h-16 rounded-2xl border border-sky-100 bg-white text-center text-xl sm:text-2xl font-black text-slate-900 outline-none shadow-sm transition focus:border-sky-500 focus:ring-4 focus:ring-sky-100" required inputmode="numeric" aria-label="OTP digit 3">
+                            <input type="text" maxlength="1" class="otp-input h-14 sm:h-16 rounded-2xl border border-sky-100 bg-white text-center text-xl sm:text-2xl font-black text-slate-900 outline-none shadow-sm transition focus:border-sky-500 focus:ring-4 focus:ring-sky-100" required inputmode="numeric" aria-label="OTP digit 4">
+                            <input type="text" maxlength="1" class="otp-input h-14 sm:h-16 rounded-2xl border border-sky-100 bg-white text-center text-xl sm:text-2xl font-black text-slate-900 outline-none shadow-sm transition focus:border-sky-500 focus:ring-4 focus:ring-sky-100" required inputmode="numeric" aria-label="OTP digit 5">
+                            <input type="text" maxlength="1" class="otp-input h-14 sm:h-16 rounded-2xl border border-sky-100 bg-white text-center text-xl sm:text-2xl font-black text-slate-900 outline-none shadow-sm transition focus:border-sky-500 focus:ring-4 focus:ring-sky-100" required inputmode="numeric" aria-label="OTP digit 6">
+                        </div>
+                        <p class="mt-3 text-xs leading-5 text-slate-500">
+                            You may paste the full six-digit OTP into any box. The system will fill the boxes automatically.
+                        </p>
+                    </div>
+
+                    <button
+                        type="submit"
+                        id="verifyBtn"
+                        class="w-full rounded-full bg-gradient-to-r from-sky-600 to-indigo-600 text-white py-4 font-extrabold hover:from-sky-700 hover:to-indigo-700 transition shadow-xl shadow-sky-200/80 disabled:opacity-60 disabled:cursor-not-allowed">
+                        Verify Code
+                    </button>
+                </form>
+
+                <div class="mt-7 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
+                    <p class="text-slate-500">
+                        Didn’t receive code?
+                        <a href="{{ url_for('resend_otp') }}" class="font-extrabold text-sky-700 hover:text-sky-800 hover:underline">
+                            Resend
+                        </a>
+                    </p>
+
+                    <a href="{{ url_for('login') }}" class="font-extrabold text-sky-700 hover:text-sky-800 hover:underline">
+                        Back to Login
+                    </a>
+                </div>
+
+                <div class="mt-8 rounded-3xl border border-sky-100 bg-white/75 p-5 text-center">
+                    <p class="text-xs leading-5 text-slate-500">
+                        Keep your OTP private. SpliceGuard will never ask you to share the code outside this verification page.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+<script>
+const inputs = document.querySelectorAll(".otp-input");
+const hiddenInput = document.getElementById("fullOtp");
+const otpForm = document.getElementById("otpForm");
+const verifyBtn = document.getElementById("verifyBtn");
+
+inputs.forEach((input, index) => {
+    input.addEventListener("input", () => {
+        input.value = input.value.replace(/[^0-9]/g, "");
+        if (input.value && index < inputs.length - 1) {
+            inputs[index + 1].focus();
+        }
+    });
+
+    input.addEventListener("keydown", (e) => {
+        if (e.key === "Backspace" && !input.value && index > 0) {
+            inputs[index - 1].focus();
+        }
+    });
+
+    input.addEventListener("paste", (e) => {
+        e.preventDefault();
+        const pasted = (e.clipboardData || window.clipboardData)
+            .getData("text")
+            .replace(/[^0-9]/g, "")
+            .slice(0, 6);
+
+        pasted.split("").forEach((char, i) => {
+            if (inputs[i]) inputs[i].value = char;
+        });
+
+        const nextIndex = Math.min(pasted.length, inputs.length - 1);
+        inputs[nextIndex].focus();
+    });
+});
+
+otpForm.addEventListener("submit", () => {
+    let otp = "";
+    inputs.forEach(input => otp += input.value);
+    hiddenInput.value = otp;
+    verifyBtn.disabled = true;
+    verifyBtn.textContent = "Verifying...";
+});
+</script>
+
+</body>
+
+</html>

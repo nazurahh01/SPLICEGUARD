@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <title>Upgrade Plan | SpliceGuard</title>
+</head>
+
+<body class="min-h-screen bg-[#f4f9fc] text-slate-900 overflow-x-hidden">
+    <!-- CLOSE BUTTON -->
+    <a href="/tool"
+    class="fixed top-6 right-6 z-50 group">
+
+        <div class="h-14 w-14 rounded-2xl border border-white/70 bg-white/80 backdrop-blur-2xl shadow-[0_15px_40px_rgba(14,165,233,0.18)] flex items-center justify-center transition duration-300 group-hover:scale-105 group-hover:border-rose-200 group-hover:shadow-[0_20px_50px_rgba(244,63,94,0.18)]">
+
+            <span class="text-2xl font-black text-slate-500 transition group-hover:text-rose-500">
+                ✕
+            </span>
+
+        </div>
+
+    </a>
+
+    <!-- GRID BACKGROUND -->
+    <div class="fixed inset-0 opacity-[0.05] pointer-events-none"
+        style="
+            background-image:
+            linear-gradient(to right, #0ea5e9 1px, transparent 1px),
+            linear-gradient(to bottom, #0ea5e9 1px, transparent 1px);
+            background-size: 32px 32px;">
+    </div>
+<!-- UPGRADE PLAN PAGE -->
+<section class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+
+    <!-- TOP BADGE -->
+    <div class="flex justify-center">
+        <div class="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-5 py-2 text-xs font-extrabold uppercase tracking-[0.2em] text-sky-700 shadow-sm">
+            <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Subscription Workspace Access
+        </div>
+    </div>
+
+    <!-- TITLE -->
+    <div class="mt-8 text-center max-w-3xl mx-auto">
+
+        <h1 class="text-5xl lg:text-6xl font-black tracking-tight text-slate-950 leading-tight">
+            Upgrade Your
+            <span class="bg-gradient-to-r from-sky-600 to-indigo-600 bg-clip-text text-transparent">
+                Forensic Workspace
+            </span>
+        </h1>
+
+        <p class="mt-6 text-lg text-slate-600 leading-8">
+            Choose the investigation plan that best fits your forensic analysis workflow.
+            Unlock advanced workspace access, unlimited report generation, and enhanced
+            digital forensic capabilities.
+        </p>
+
+    </div>
+
+    <!-- PLAN CARDS -->
+    <div class="mt-16 grid lg:grid-cols-2 gap-8 items-stretch">
+
+        <!-- FREE PLAN -->
+        <div class="relative rounded-[2rem] border border-sky-100 bg-white/80 backdrop-blur-xl shadow-2xl shadow-sky-100/70 p-8 flex flex-col">
+
+            <div>
+                <p class="text-sm font-extrabold uppercase tracking-[0.18em] text-sky-700">
+                    Free Plan
+                </p>
+
+                <div class="mt-5 flex items-end gap-2">
+                    <h2 class="text-5xl font-black text-slate-950">
+                        RM0
+                    </h2>
+
+                    <span class="text-slate-500 font-semibold mb-1">
+                        / forever
+                    </span>
+                </div>
+
+                <p class="mt-5 text-sm leading-7 text-slate-600">
+                    Ideal for testing the platform and performing basic forensic image analysis.
+                </p>
+            </div>
+
+            <div class="mt-8 space-y-4 text-sm text-slate-700 flex-1">
+
+                <div class="flex items-center gap-3">
+                    <span class="text-emerald-500 font-black">✔</span>
+                    <span>10 image scans per day</span>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <span class="text-emerald-500 font-black">✔</span>
+                    <span>5 forensic reports daily</span>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <span class="text-emerald-500 font-black">✔</span>
+                    <span>Save investigation history</span>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <span class="text-emerald-500 font-black">✔</span>
+                    <span>Basic forensic metadata analysis</span>
+                </div>
+
+            </div>
+
+            {% if session.get("subscription_active") %}
+
+            <button
+            class="mt-10 w-full py-4 rounded-full border border-slate-200 bg-slate-100 text-slate-400 font-extrabold cursor-not-allowed">
+                Free Plan
+            </button>
+
+            {% else %}
+
+            <button
+            class="mt-10 w-full py-4 rounded-full border border-sky-200 bg-white text-slate-700 font-extrabold">
+                Current Plan
+            </button>
+
+            {% endif %}
+
+        </div>
+
+        <!-- MONTHLY PREMIUM -->
+        <div class="relative rounded-[2rem] border-2 border-sky-500 bg-gradient-to-br from-sky-600 to-indigo-600 text-white shadow-[0_30px_80px_rgba(37,99,235,0.35)] p-8 flex flex-col scale-[1.03]">
+
+            <!-- POPULAR BADGE -->
+            <div class="absolute -top-4 left-1/2 -translate-x-1/2">
+                <div class="rounded-full bg-white px-5 py-2 text-xs font-black uppercase tracking-[0.2em] text-sky-700 shadow-xl">
+                    Most Popular
+                </div>
+            </div>
+
+            <div>
+                <p class="text-sm font-extrabold uppercase tracking-[0.18em] text-sky-100">
+                    Premium Plan
+                </p>
+
+                <div class="mt-5 flex items-end gap-2">
+                    <h2 class="text-5xl font-black">
+                        RM19
+                    </h2>
+
+                    <span class="text-sky-100 font-semibold mb-1">
+                        workspace access
+                    </span>
+                </div>
+
+                <p class="mt-5 text-sm leading-7 text-sky-50">
+                    Best for active forensic investigations and continuous AI-assisted analysis.
+                </p>
+            </div>
+
+            <div class="mt-8 space-y-4 text-sm flex-1">
+
+                <div class="flex items-center gap-3">
+                    <span class="font-black">✔</span>
+                    <span>Unlimited image analysis</span>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <span class="font-black">✔</span>
+                    <span>Unlimited forensic reports</span>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <span class="font-black">✔</span>
+                    <span>Advanced metadata extraction</span>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <span class="font-black">✔</span>
+                    <span>Priority forensic workspace access</span>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <span class="font-black">✔</span>
+                    <span>Full investigation history management</span>
+                </div>
+
+            </div>
+
+            {% if session.get("subscription_active") %}
+
+            <div class="mt-10 w-full py-4 rounded-full bg-emerald-100 border border-emerald-200 text-emerald-700 font-black text-center shadow-xl">
+                Current Premium Plan
+            </div>
+
+            {% else %}
+
+            <a href="/buy-premium"
+            class="mt-10 w-full py-4 rounded-full bg-white text-sky-700 font-black hover:bg-sky-50 transition shadow-xl text-center block">
+                Upgrade Now
+            </a>
+
+            {% endif %}
+
+        </div>
+    </div>
+
+</section>
+</body>
+</html>
