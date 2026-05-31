@@ -59,10 +59,11 @@ history = []
 # ================= DATABASE =================
 
 conn = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password=os.getenv("MYSQL_PASS"),
-    database="spliceguard"
+    host=os.getenv("MYSQLHOST"),
+    user=os.getenv("MYSQLUSER"),
+    password=os.getenv("MYSQLPASSWORD"),
+    database=os.getenv("MYSQLDATABASE"),
+    port=int(os.getenv("MYSQLPORT"))
 )
 cursor = conn.cursor(dictionary=True)
 
