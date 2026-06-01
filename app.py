@@ -16,6 +16,9 @@ from email.mime.text import MIMEText
 import math
 import hashlib
 import requests
+import tensorflow as tf
+
+tf.config.set_visible_devices([], 'GPU')
 
 # ================= LOAD ENV =================
 load_dotenv()
@@ -58,14 +61,21 @@ history = []
 
 # ================= DATABASE =================
 
-conn = mysql.connector.connect(
-    host=os.getenv("MYSQLHOST"),
-    user=os.getenv("MYSQLUSER"),
-    password=os.getenv("MYSQLPASSWORD"),
-    database=os.getenv("MYSQLDATABASE"),
-    port=int(os.getenv("MYSQLPORT"))
-)
-cursor = conn.cursor(dictionary=True)
+def get_db():
+    conn = mysql.connector.connect(
+        host=os.getenv("MYSQLHOST"),
+        user=os.getenv("MYSQLUSER"),
+        password=os.getenv("MYSQLPASSWORD"),
+        database=os.getenv("MYSQLDATABASE"),
+        port=int(os.getenv("MYSQLPORT")),
+        autocommit=True,
+        connection_timeout=30
+        ssl_disabled=False
+    )
+
+    print("CONNECTED =", conn.is_connected())
+
+    return conn, conn.cursor(dictionary=True)
 
 # ================= LOGIN ATTEMPTS =================
 login_attempts = {}
@@ -136,6 +146,8 @@ def index():
 
             guest_ip = request.remote_addr
 
+            conn, cursor = get_db()
+            print("CONN STATUS =", conn.is_connected())
             cursor.execute("""
                 SELECT COUNT(*) AS total
                 FROM guest_activity_log
@@ -261,6 +273,7 @@ def login():
                         subscription_active = False
                         subscription_type = "FREE"
 
+                        conn, cursor = get_db()
                         cursor.execute("""
                             UPDATE users
                             SET subscription_active = 0,
@@ -415,6 +428,7 @@ def otp():
 
         # Update database status
         try:
+            conn, cursor = get_db()
             cursor.execute(
             "UPDATE users SET status='active' WHERE email=%s",
             (user["email"],)
@@ -533,6 +547,7 @@ def reset_password_otp():
         session.pop("reset_email", None)
 
         # Update database
+        conn, cursor = get_db()
         try:
             cursor.execute(
                 "UPDATE users SET password_hash=%s WHERE email=%s",
@@ -570,6 +585,7 @@ def tool():
 
         if not session.get("subscription_active"):
 
+            conn, cursor = get_db()
             cursor.execute("""
                 SELECT COUNT(*) AS total
                 FROM history
@@ -675,6 +691,7 @@ def view_history():
 
     if session["role"] == "admin":
         # Get all history from database
+        conn, cursor = get_db()
         cursor.execute("""
             SELECT h.*, u.username as user
             FROM history h
@@ -754,6 +771,7 @@ def payment_success():
 
     expiry = datetime.now() + timedelta(days=30)
 
+    conn, cursor = get_db()
     cursor.execute("""
         UPDATE users
         SET subscription_active = 1,
@@ -779,6 +797,7 @@ def admin_history():
 
     current_user = session["username"]
 
+    conn, cursor = get_db()
     cursor.execute("""
         SELECT h.*, u.username as user
         FROM history h
@@ -805,6 +824,7 @@ def generate_report(filename):
 
     if current_role != "admin" and not session.get("subscription_active"):
 
+        conn, cursor = get_db()
         cursor.execute("""
             SELECT COUNT(*) AS total
             FROM report_logs
@@ -870,6 +890,7 @@ def generate_report(filename):
 @login_required(role="admin")
 def admin():
     # Get stats from database
+    conn, cursor = get_db()
     cursor.execute("SELECT COUNT(*) as total_scans FROM history")
     total_scans = cursor.fetchone()["total_scans"]
 
@@ -1062,9 +1083,11 @@ def get_user_by_username(username):
         if user.get("id"):
             return user
         # If the user exists in memory but was created in the DB, fetch the DB record.
+        conn, cursor = get_db()
         cursor.execute("SELECT * FROM users WHERE username=%s", (username,))
         db_user = cursor.fetchone()
         return db_user or user
+    conn, cursor = get_db()
     cursor.execute("SELECT * FROM users WHERE username=%s", (username,))
     return cursor.fetchone()
 
@@ -1073,6 +1096,7 @@ def get_user_by_email(email):
         if user.get("email", "").lower() == email.lower():
             if user.get("id"):
                 return user
+            conn, cursor = get_db()
             cursor.execute("SELECT * FROM users WHERE email=%s", (email,))
             db_user = cursor.fetchone()
             return db_user or user
@@ -1081,6 +1105,7 @@ def get_user_by_email(email):
 
 def register_user_db(username, email, password):
     password_hash = generate_password_hash(password)
+    conn, cursor = get_db()
     cursor.execute("""
         INSERT INTO users (
             username, email, password_hash,
@@ -1097,6 +1122,7 @@ def register_user_db(username, email, password):
     return cursor.lastrowid
 
 def add_history(user_id, filename, result, confidence):
+    conn, cursor = get_db()
     cursor.execute("""
         INSERT INTO history (user_id, filename, result, confidence)
         VALUES (%s, %s, %s, %s)
@@ -1106,6 +1132,7 @@ def add_history(user_id, filename, result, confidence):
 # ================= GUEST ACTIVITY =================
 def add_guest_activity(filename, result, confidence):
 
+    conn, cursor = get_db()
     ip_address = request.remote_addr
 
     cursor.execute("""
@@ -1122,6 +1149,7 @@ def add_guest_activity(filename, result, confidence):
     conn.commit()
 
 def add_admin_activity(admin_user_id, action, details=None):
+    conn, cursor = get_db()
     cursor.execute("""
         INSERT INTO admin_activity_log (admin_user_id, action, details)
         VALUES (%s, %s, %s)
@@ -1129,6 +1157,7 @@ def add_admin_activity(admin_user_id, action, details=None):
     conn.commit()
 
 def get_user_history(user_id):
+    conn, cursor = get_db()
     cursor.execute("SELECT * FROM history WHERE user_id=%s ORDER BY timestamp DESC", (user_id,))
     return cursor.fetchall()
 
