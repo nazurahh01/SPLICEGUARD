@@ -184,7 +184,8 @@ def index():
                     print("STEP 2 - image opened")
                     processed = preprocess_image(image)
                     print("STEP 3 - image preprocessed")
-                    prediction = 0.5
+                    prediction = float(model.predict(processed, verbose=0)[0][0])
+                    print(f"PREDICTION = {prediction}")
                     print("STEP 4 - prediction done")
 
                     if prediction >= THRESHOLD:
