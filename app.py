@@ -198,12 +198,14 @@ def index():
                     metadata = extract_metadata(saved_path)
                     image_path = "/" + saved_path.replace("\\", "/")
 
-                    add_guest_activity(
-                        filename,
-                        result,
-                        round(confidence, 2)
-                    )
+                    print("STEP 7")
+                    #add_guest_activity(
+                     #   filename,
+                      #  result,
+                       # round(confidence, 2)
+                    #)
 
+                    print("STEP 8")
                 except Exception as e:
                     error = f"Error processing the image: {str(e)}"
 
@@ -648,7 +650,8 @@ def tool():
                 result = "Authentic (Original)"
                 confidence = (1 - prediction) * 100
 
-            metadata = extract_metadata(saved_path)
+            print("STEP 5")
+            #metadata = extract_metadata(saved_path)
 
             # Get user ID from database
             user_record = get_user_by_username(session["username"])
@@ -1044,6 +1047,7 @@ def admin_scan():
                 round(confidence, 2)
             )
 
+            print("STEP 6")
             image_path = "/" + saved_path.replace("\\", "/")
 
         except Exception:
