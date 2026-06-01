@@ -694,9 +694,10 @@ def tool():
 def view_history():
     current_user = session["username"]
 
+    conn, cursor = get_db()
+
     if session["role"] == "admin":
         # Get all history from database
-        conn, cursor = get_db()
         cursor.execute("""
             SELECT h.*, u.username as user
             FROM history h
@@ -1097,16 +1098,38 @@ def get_user_by_username(username):
     return cursor.fetchone()
 
 def get_user_by_email(email):
+
     for user in USERS.values():
         if user.get("email", "").lower() == email.lower():
             if user.get("id"):
                 return user
+
             conn, cursor = get_db()
-            cursor.execute("SELECT * FROM users WHERE email=%s", (email,))
+            cursor.execute(
+                "SELECT * FROM users WHERE email=%s",
+                (email,)
+            )
+
             db_user = cursor.fetchone()
+
+            cursor.close()
+            conn.close()
+
             return db_user or user
-    cursor.execute("SELECT * FROM users WHERE email=%s", (email,))
-    return cursor.fetchone()
+
+    conn, cursor = get_db()
+
+    cursor.execute(
+        "SELECT * FROM users WHERE email=%s",
+        (email,)
+    )
+
+    result = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return result
 
 def register_user_db(username, email, password):
     password_hash = generate_password_hash(password)
