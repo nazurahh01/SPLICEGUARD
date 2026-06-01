@@ -641,7 +641,9 @@ def tool():
 
             image = Image.open(saved_path).convert("RGB")
             processed = preprocess_image(image)
-            prediction = float(model.predict(processed, verbose=0)[0][0])
+            prediction = 0.25
+
+            print("STEP 4 - fake prediction")
 
             if prediction >= THRESHOLD:
                 result = "Spliced (Fake)"
