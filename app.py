@@ -69,7 +69,7 @@ def get_db():
         database=os.getenv("MYSQLDATABASE"),
         port=int(os.getenv("MYSQLPORT")),
         autocommit=True,
-        connection_timeout=30
+        connection_timeout=30,
         ssl_disabled=False
     )
 
