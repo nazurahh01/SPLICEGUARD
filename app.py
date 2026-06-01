@@ -44,7 +44,7 @@ OTP_EXPIRY_MINUTES = 5
 
 # ================= LOAD MODEL =================
 
-# Load the trained Keras model (MobileNetV)
+# Load the trained model (MobileNetV)
 MODEL_PATH = "splicing_model_CASIA2_NEW.h5"
 
 if not os.path.exists(MODEL_PATH):
@@ -179,9 +179,13 @@ def index():
 
                 try:
                     file.save(saved_path)
+                    print("STEP 1 - file saved")
                     image = Image.open(saved_path).convert("RGB")
+                    print("STEP 2 - image opened")
                     processed = preprocess_image(image)
+                    print("STEP 3 - image preprocessed")
                     prediction = float(model.predict(processed, verbose=0)[0][0])
+                    print("STEP 4 - prediction done")
 
                     if prediction >= THRESHOLD:
                         result = "Spliced (Fake)"
