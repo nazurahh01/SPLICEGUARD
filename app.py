@@ -59,6 +59,11 @@ USERS = {}
 # ================= HISTORY =================
 history = []
 
+print("MYSQLHOST =", os.getenv("MYSQLHOST"))
+print("MYSQLPORT =", os.getenv("MYSQLPORT"))
+print("MYSQLDATABASE =", os.getenv("MYSQLDATABASE"))
+print("MYSQLUSER =", os.getenv("MYSQLUSER"))
+
 # ================= DATABASE =================
 
 def get_db():
@@ -641,9 +646,11 @@ def tool():
 
             image = Image.open(saved_path).convert("RGB")
             processed = preprocess_image(image)
-            prediction = 0.25
+            prediction = float(
+                model.predict(processed, verbose=0)[0][0]
+            )
 
-            print("STEP 4 - fake prediction")
+            print(f"PREDICTION = {prediction}")
 
             if prediction >= THRESHOLD:
                 result = "Spliced (Fake)"
@@ -652,8 +659,7 @@ def tool():
                 result = "Authentic (Original)"
                 confidence = (1 - prediction) * 100
 
-            print("STEP 5")
-            #metadata = extract_metadata(saved_path)
+            metadata = extract_metadata(saved_path)
 
             # Get user ID from database
             user_record = get_user_by_username(session["username"])
@@ -831,11 +837,12 @@ def generate_report(filename):
     current_user = session["username"]
     current_role = session["role"]
 
+    conn, cursor = get_db()
+
     # ================= FREE REPORT LIMIT =================
 
     if current_role != "admin" and not session.get("subscription_active"):
 
-        conn, cursor = get_db()
         cursor.execute("""
             SELECT COUNT(*) AS total
             FROM report_logs
@@ -888,6 +895,8 @@ def generate_report(filename):
         """, (session["user_id"],))
 
         conn.commit()
+        cursor.close()
+        conn.close()
 
     return render_template(
         "report.html",
@@ -1049,7 +1058,6 @@ def admin_scan():
                 round(confidence, 2)
             )
 
-            print("STEP 6")
             image_path = "/" + saved_path.replace("\\", "/")
 
         except Exception:
