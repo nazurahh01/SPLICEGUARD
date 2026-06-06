@@ -204,11 +204,11 @@ def index():
                     image_path = "/" + saved_path.replace("\\", "/")
 
                     print("STEP 7")
-                    #add_guest_activity(
-                     #   filename,
-                      #  result,
-                       # round(confidence, 2)
-                    #)
+                    add_guest_activity(
+                        filename,
+                        result,
+                        round(confidence, 2)
+                    )
 
                     print("STEP 8")
                 except Exception as e:

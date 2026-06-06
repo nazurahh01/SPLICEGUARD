@@ -167,20 +167,24 @@
 
                     {% endif %}
 
-                    {% if session.get("subscription_active") %}
-                        <div class="rounded-full border border-emerald-200 bg-emerald-100 px-4 py-2 text-sm font-bold text-emerald-700">
-                            Premium • 3 Months
-                        </div>
-                    {% else %}
-                        <div class="rounded-full border border-sky-200 bg-sky-100 px-4 py-2 text-sm font-bold text-sky-700">
-                            FREE USER
-                        </div>
-                    {% endif %}
+                    {% if session.get('role') != 'admin' %}
 
-                    <a href="/upgrade"
-                    class="px-5 py-2.5 rounded-full border border-indigo-200 bg-white text-slate-700 font-semibold hover:border-indigo-400 hover:text-indigo-700 transition">
-                        Upgrade Plan
-                    </a>
+                        {% if session.get("subscription_active") %}
+                            <div class="rounded-full border border-emerald-200 bg-emerald-100 px-4 py-2 text-sm font-bold text-emerald-700">
+                                Premium User
+                            </div>
+                        {% else %}
+                            <div class="rounded-full border border-sky-200 bg-sky-100 px-4 py-2 text-sm font-bold text-sky-700">
+                                FREE USER
+                            </div>
+                        {% endif %}
+
+                        <a href="/upgrade"
+                        class="px-5 py-2.5 rounded-full border border-indigo-200 bg-white text-slate-700 font-semibold hover:border-indigo-400 hover:text-indigo-700 transition">
+                            Upgrade Plan
+                        </a>
+
+                    {% endif %}
 
                     <a href="/logout"
                     class="px-5 py-2.5 rounded-full bg-slate-950 text-white font-semibold hover:bg-slate-800 transition shadow-lg shadow-slate-900/20">
@@ -327,7 +331,6 @@
 
     <!-- TOP SUMMARY -->
     <div class="rounded-[2rem] border border-white/80 bg-white shadow-2xl shadow-sky-100/80 overflow-hidden">
-
         <div class="relative overflow-hidden hero-orb p-8 lg:p-10">
 
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
@@ -353,9 +356,10 @@
                     </h1>
 
                     <p class="mt-4 max-w-2xl text-slate-600 leading-7">
-                        This classification indicates that the model detected patterns consistent with possible image 
-                        splicing manipulation. The result should be treated as a screening output and verified through metadata review, 
-                        visual inspection, and expert forensic judgement.
+                        This classification indicates that the model detected possible signs 
+                        of image splicing manipulation. The confidence score shows how confident the CNN model 
+                        is in its prediction and is categorized into Low, Medium, or High levels to help users better 
+                        understand the reliability of the result.
                     </p>
 
                 </div>
@@ -391,18 +395,57 @@
                         </div>
 
                         <div class="flex justify-between">
-                            <span>Risk Level</span>
+                            <span>Confidence Level</span>
 
-                            {% if confidence|float > 80 %}
-                            <span class="font-bold text-rose-600">High</span>
-                            {% elif confidence|float > 50 %}
-                            <span class="font-bold text-amber-600">Medium</span>
+                            {% if confidence|float >= 80 %}
+                                <span class="font-bold text-emerald-600">High</span>
+
+                            {% elif confidence|float >= 50 %}
+                                <span class="font-bold text-amber-600">Medium</span>
+
                             {% else %}
-                            <span class="font-bold text-emerald-600">Low</span>
+                                <span class="font-bold text-rose-600">Low</span>
                             {% endif %}
+                            
                         </div>
 
-                    </div>
+                        {% if 'Authentic' in result %}
+
+                        <div class="mt-3 rounded-xl bg-emerald-50 border border-emerald-200 p-3">
+                            <p class="text-xs text-emerald-700 leading-5">
+
+                                {% if confidence|float >= 80 %}
+                                    This image is highly likely to be authentic.
+
+                                {% elif confidence|float >= 50 %}
+                                    This image appears to be authentic.
+
+                                {% else %}
+                                    The confidence of this prediction is low.
+                                {% endif %}
+
+                            </p>
+                        </div>
+
+                        {% elif 'Spliced' in result %}
+
+                        <div class="mt-3 rounded-xl bg-rose-50 border border-rose-200 p-3">
+                            <p class="text-xs text-rose-700 leading-5">
+
+                                {% if confidence|float >= 80 %}
+                                    This image is highly likely to be spliced.
+
+                                {% elif confidence|float >= 50 %}
+                                    This image may contain signs of splicing.
+
+                                {% else %}
+                                    The confidence of this prediction is low.
+                                {% endif %}
+
+                            </p>
+                        </div>
+
+                        {% endif %}
 
                 </div>
 
@@ -507,49 +550,20 @@
 
 </section>
 
-<!-- INTERPRETATION -->
-<section class="grid lg:grid-cols-3 gap-4 mt-6">
-
-    <div class="rounded-3xl border border-emerald-100 bg-emerald-50 p-5">
-
-        <p class="font-black text-emerald-800">
-            Authentic
-        </p>
-
-        <p class="mt-2 text-sm leading-6 text-emerald-700">
-            Low model evidence of splicing manipulation.
-        </p>
-
+<!-- INTERPRETATION NOTES -->
+<section class="flex flex-wrap gap-4 mt-8">
+    <div class="w-72 rounded-3xl border border-emerald-100 bg-emerald-50 p-5">
+        <p class="font-black text-emerald-800">Authentic</p>
+        <p class="mt-2 text-sm leading-6 text-emerald-700">This image appears to be original and unmodified.</p>
     </div>
-
-    <div class="rounded-3xl border border-rose-100 bg-rose-50 p-5">
-
-        <p class="font-black text-rose-800">
-            Spliced
-        </p>
-
-        <p class="mt-2 text-sm leading-6 text-rose-700">
-            Possible manipulation patterns detected.
-        </p>
-
+    <div class="w-72 rounded-3xl border border-rose-100 bg-rose-50 p-5">
+        <p class="font-black text-rose-800">Spliced</p>
+        <p class="mt-2 text-sm leading-6 text-rose-700">This image may contain signs of editing or manipulation.</p>
     </div>
-
-    <div class="rounded-3xl border border-amber-100 bg-amber-50 p-5">
-
-        <p class="font-black text-amber-800">
-            Uncertain
-        </p>
-
-        <p class="mt-2 text-sm leading-6 text-amber-700">
-            Additional verification is recommended.
-        </p>
-
-    </div>
-
 </section>
 
 <!-- ACTIONS -->
-<div class="flex flex-col sm:flex-row justify-end gap-3 pt-2 mt-8">
+<div class="flex flex-col sm:flex-row justify-end gap-3 mt-6">
 
     {% if 'username' in session %}
 
@@ -571,7 +585,7 @@
 
     {% endif %}
 
-    <a href="/"
+    <a href="/admin-scan"
         class="inline-flex items-center justify-center px-5 py-3 rounded-full border border-sky-200 bg-white text-slate-700 hover:border-sky-400 hover:text-sky-700 text-sm font-extrabold transition">
 
         New Scan

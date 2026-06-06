@@ -197,19 +197,43 @@
                         ">{{ record.result }}</h2>
 
                         <p class="mt-4 text-sm text-slate-600 leading-7">
-                            {% if 'Spliced' in record.result %}
-                                This classification indicates that the model detected patterns consistent with possible image splicing manipulation. The result should be treated as a screening output and verified through metadata review, visual inspection, and expert forensic judgement.
-                            {% elif 'Authentic' in record.result %}
-                                This classification indicates that the model found low evidence of image splicing manipulation in the uploaded image. The result remains a screening output and should be interpreted with metadata and contextual evidence.
-                            {% else %}
-                                This classification indicates that the model output is not strongly aligned with a single class. Additional verification is recommended before drawing a final conclusion.
-                            {% endif %}
+                            This classification indicates that the model detected possible signs of image splicing manipulation. 
+                            The confidence score shows how confident the CNN model is in its prediction and is categorized into Low, Medium, or High levels 
+                            to help users better understand the reliability of the result.
                         </p>
                     </div>
 
                     <div class="rounded-[1.7rem] border border-sky-100 bg-gradient-to-br from-white to-sky-50 p-6 shadow-sm">
                         <p class="text-xs uppercase tracking-[0.2em] text-slate-500 font-black">Confidence Score</p>
                         <h2 class="mt-3 text-5xl font-black tracking-tight text-slate-950">{{ record.confidence }}%</h2>
+
+                        <div class="mt-3">
+
+                        <div class="mt-4 space-y-3 text-sm">
+
+                            <div class="flex justify-between">
+                                <span class="text-slate-500">Analysis Status</span>
+                                <span class="font-semibold text-emerald-600">Completed</span>
+                            </div>
+
+                            <div class="flex justify-between">
+                                <span class="text-slate-500">Confidence Level</span>
+
+                                {% if record.confidence|float >= 80 %}
+                                    <span class="font-semibold text-emerald-600">High</span>
+
+                                {% elif record.confidence|float >= 50 %}
+                                    <span class="font-semibold text-amber-600">Medium</span>
+
+                                {% else %}
+                                    <span class="font-semibold text-rose-600">Low</span>
+
+                                {% endif %}
+                            </div>
+
+                        </div>
+
+                        </div>
 
                         <div class="mt-5 h-3 rounded-full bg-white border border-slate-100 overflow-hidden">
                             <div class="h-full rounded-full
@@ -223,9 +247,44 @@
                             " style="width: {{ record.confidence | float }}%;"></div>
                         </div>
 
-                        <p class="mt-4 text-sm text-slate-600 leading-7">
-                            The confidence score represents the model’s estimated certainty for the displayed classification. Higher values indicate stronger alignment with learned forensic patterns, not absolute evidential proof.
-                        </p>
+                        {% if 'Authentic' in record.result %}
+
+                        <div class="mt-4 rounded-xl bg-emerald-50 border border-emerald-200 p-3">
+                            <p class="text-xs text-emerald-700 leading-5">
+
+                                {% if record.confidence|float >= 80 %}
+                                    This image is highly likely to be authentic.
+
+                                {% elif record.confidence|float >= 50 %}
+                                    This image appears to be authentic.
+
+                                {% else %}
+                                    The confidence of this prediction is low.
+                                {% endif %}
+
+                            </p>
+                        </div>
+
+                        {% elif 'Spliced' in record.result %}
+
+                        <div class="mt-4 rounded-xl bg-rose-50 border border-rose-200 p-3">
+                            <p class="text-xs text-rose-700 leading-5">
+
+                                {% if record.confidence|float >= 80 %}
+                                    This image is highly likely to be spliced.
+
+                                {% elif record.confidence|float >= 50 %}
+                                    This image may contain signs of splicing.
+
+                                {% else %}
+                                    The confidence of this prediction is low.
+                                {% endif %}
+
+                            </p>
+                        </div>
+
+                        {% endif %}
+
                     </div>
                 </section>
 
@@ -367,15 +426,11 @@
                 <section class="grid lg:grid-cols-3 gap-4">
                     <div class="rounded-3xl border border-emerald-100 bg-emerald-50 p-5">
                         <p class="font-black text-emerald-800">Authentic</p>
-                        <p class="mt-2 text-sm leading-6 text-emerald-700">Low model evidence of splicing manipulation.</p>
+                        <p class="mt-2 text-sm leading-6 text-emerald-700">This image appears to be original and unmodified.</p>
                     </div>
                     <div class="rounded-3xl border border-rose-100 bg-rose-50 p-5">
                         <p class="font-black text-rose-800">Spliced</p>
-                        <p class="mt-2 text-sm leading-6 text-rose-700">Possible manipulation patterns detected.</p>
-                    </div>
-                    <div class="rounded-3xl border border-amber-100 bg-amber-50 p-5">
-                        <p class="font-black text-amber-800">Uncertain</p>
-                        <p class="mt-2 text-sm leading-6 text-amber-700">Additional verification is recommended.</p>
+                        <p class="mt-2 text-sm leading-6 text-rose-700">This image may contain signs of editing or manipulation.</p>
                     </div>
                 </section>
 
