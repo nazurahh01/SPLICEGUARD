@@ -162,7 +162,7 @@ def index():
 
             guest_scan_count = cursor.fetchone()["total"]
 
-            if guest_scan_count >= 5:
+            if guest_scan_count >= 15:
                 error = "Guest scan limit reached. Please register to continue using SpliceGuard."
              
                 return render_template(
