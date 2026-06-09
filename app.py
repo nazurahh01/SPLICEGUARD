@@ -135,9 +135,14 @@ def validate_password_strength(password):
 # ================= ROOT =================
 @app.route("/", methods=["GET", "POST"])
 def index():
+
     if "username" in session:
-        # User is logged in, show history and generate report
-        return redirect(url_for("tool"))
+
+        if session.get("role") == "admin":
+            return redirect(url_for("admin_scan"))
+
+        elif session.get("role") == "user":
+            return redirect(url_for("tool"))
     else:
         # Non-logged-in user can only submit image
         result = None
@@ -627,7 +632,7 @@ def tool():
         file = request.files.get("image")
 
         if not file or not file.filename:
-            return render_template("index.html", error="Please select an image file.")
+            return render_template("admin.html", error="Please select an image file.")
 
         if not allowed_file(file.filename):
             return render_template("index.html", error="Invalid file type. Only JPG, JPEG, and PNG are allowed.")
@@ -1021,7 +1026,7 @@ def admin_scan():
 
         if not file or not file.filename:
             return render_template(
-                "index.html",
+                "admin.html",
                 error="Please select an image file."
             )
 
