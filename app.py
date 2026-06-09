@@ -864,7 +864,7 @@ def generate_report(filename):
                 "error"
             )
 
-            return redirect(url_for("history"))
+            return redirect(url_for("view_history"))
 
     # Get record from database
     if current_role == "admin":
