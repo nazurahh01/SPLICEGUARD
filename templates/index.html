@@ -327,10 +327,10 @@
         {% else %}
 
 <!-- RESULT WORKSPACE -->
-<section class="space-y-8">
+<section class="space-y-10 pb-16"></section>
 
     <!-- TOP SUMMARY -->
-    <div class="rounded-[2rem] border border-white/80 bg-white shadow-2xl shadow-sky-100/80 overflow-hidden">
+    <div class="rounded-[2rem] border border-white/80 bg-white shadow-2xl shadow-sky-100/80 overflow-hidden pb-10"></div>
         <div class="relative overflow-hidden hero-orb p-8 lg:p-10">
 
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
@@ -551,8 +551,8 @@
 </section>
 
 <!-- INTERPRETATION NOTES -->
-<section class="flex flex-wrap gap-4 mt-8">
-    <div class="w-72 rounded-3xl border border-emerald-100 bg-emerald-50 p-5">
+<section class="flex flex-wrap gap-6 mt-10">
+    <div class="w-80 rounded-3xl border border-emerald-100 bg-emerald-50 p-5">
         <p class="font-black text-emerald-800">Authentic</p>
         <p class="mt-2 text-sm leading-6 text-emerald-700">This image appears to be original and unmodified.</p>
     </div>
@@ -563,7 +563,14 @@
 </section>
 
 <!-- ACTIONS -->
-<div class="flex flex-col sm:flex-row justify-end gap-3 mt-6">
+<div class="flex flex-col sm:flex-row justify-between gap-4 mt-10">
+
+    <a href="/"
+        class="inline-flex items-center justify-center px-5 py-3 rounded-full border border-sky-200 bg-white text-slate-700 hover:border-sky-400 hover:text-sky-700 text-sm font-extrabold transition">
+
+        New Scan
+
+    </a>
 
     {% if 'username' in session %}
 
@@ -586,8 +593,6 @@
     {% endif %}
 
 </div>
-
-{% endif %}
 
     </main>
 
