@@ -761,7 +761,7 @@ def buy_premium():
 
         "billPayorInfo": 1,
 
-        "billAmount": 1900,
+        "billAmount": 19000,
 
         "billReturnUrl": "https://spliceguard.site/payment-success",
 
@@ -858,7 +858,13 @@ def generate_report(filename):
         report_count = cursor.fetchone()["total"]
 
         if report_count >= 5:
-            return "Free report limit reached for today. Upgrade your workspace for unlimited reports."
+
+            flash(
+                "Daily report limit reached. Upgrade to Premium for unlimited forensic reports.",
+                "error"
+            )
+
+            return redirect(url_for("history"))
 
     # Get record from database
     if current_role == "admin":
