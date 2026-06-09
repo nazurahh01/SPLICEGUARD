@@ -758,9 +758,9 @@ def buy_premium():
 
         "billAmount": 1900,
 
-        "billReturnUrl": "http://127.0.0.1:5000/payment-success",
+        "billReturnUrl": "https://spliceguard.site/payment-success",
 
-        "billCallbackUrl": "http://127.0.0.1:5000/payment-callback",
+        "billCallbackUrl": "https://spliceguard.site/payment-callback",
 
         "billExternalReferenceNo": str(session["user_id"]),
 
