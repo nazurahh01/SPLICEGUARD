@@ -307,12 +307,22 @@
 
                             <td class="px-6 py-5">
 
+                                {% if item.id %}
+
                                 <a href="/admin-report/{{ item.id }}"
                                 class="inline-flex items-center justify-center px-4 py-2 rounded-full bg-sky-600 text-white text-xs font-bold hover:bg-sky-700 transition">
 
-                                View
+                                    View
 
                                 </a>
+
+                                {% else %}
+
+                                <span class="text-slate-400 text-xs font-semibold">
+                                    Guest
+                                </span>
+
+                                {% endif %}
 
                             </td>
                         </tr>
