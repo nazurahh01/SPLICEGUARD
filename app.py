@@ -864,6 +864,7 @@ def generate_report(filename):
                 "error"
             )
 
+            return redirect(request.referrer or url_for("tool"))
 
     # Get record from database
     if current_role == "admin":
