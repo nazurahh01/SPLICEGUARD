@@ -967,6 +967,7 @@ def admin():
     FROM (
 
         SELECT
+            h.id,
             h.timestamp,
             u.username AS user,
             h.filename,
@@ -978,6 +979,7 @@ def admin():
         UNION ALL
 
         SELECT
+            NULL AS id,
             g.timestamp,
             CONCAT('Guest (', g.ip_address, ')') AS user,
             g.filename,
