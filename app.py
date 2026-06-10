@@ -979,7 +979,7 @@ def admin():
         UNION ALL
 
         SELECT
-            NULL AS id,
+            g.filename AS report_ref,
             g.timestamp,
             CONCAT('Guest (', g.ip_address, ')') AS user,
             g.filename,
@@ -1122,6 +1122,36 @@ def admin_report(history_id):
         record=record,
         metadata=metadata,
         generated_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    )
+# ================= admin report guest =================
+@app.route("/admin-guest-report/<filename>")
+@login_required(role="admin")
+def admin_guest_report(filename):
+
+    conn, cursor = get_db()
+
+    cursor.execute("""
+        SELECT *
+        FROM guest_activity_log
+        WHERE filename = %s
+    """, (filename,))
+
+    record = cursor.fetchone()
+
+    if not record:
+        return "Guest record not found", 404
+
+    image_path = os.path.join(
+        app.config["UPLOAD_FOLDER"],
+        filename
+    )
+
+    metadata = extract_metadata(image_path)
+
+    return render_template(
+        "admin_guest_report.html",
+        record=record,
+        metadata=metadata
     )
 
 # ================= HELPERS =================

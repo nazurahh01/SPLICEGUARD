@@ -307,20 +307,17 @@
 
                             <td class="px-6 py-5">
 
-                                {% if item.id %}
+                                {% if item.user.startswith('Guest') %}
 
-                                <a href="/admin-report/{{ item.id }}"
-                                class="inline-flex items-center justify-center px-4 py-2 rounded-full bg-sky-600 text-white text-xs font-bold hover:bg-sky-700 transition">
-
+                                <a href="/admin-guest-report/{{ item.filename }}">
                                     View
-
                                 </a>
 
                                 {% else %}
 
-                                <span class="text-slate-400 text-xs font-semibold">
-                                    Guest
-                                </span>
+                                <a href="/admin-report/{{ item.id }}">
+                                    View
+                                </a>
 
                                 {% endif %}
 
