@@ -870,7 +870,7 @@ def generate_report(filename):
                 )
 
                 return redirect(request.referrer or url_for("tool"))
-                
+
     # Get record from database
     if current_role == "admin":
         cursor.execute("""
@@ -1088,6 +1088,40 @@ def admin_scan():
         metadata=metadata,
         error=error
     )
+# ================= admin report =================
+
+@app.route("/admin-report/<int:history_id>")
+@login_required(role="admin")
+def admin_report(history_id):
+
+    conn, cursor = get_db()
+
+    cursor.execute("""
+        SELECT h.*, u.username
+        FROM history h
+        JOIN users u ON h.user_id = u.id
+        WHERE h.id = %s
+    """, (history_id,))
+
+    record = cursor.fetchone()
+
+    if not record:
+        return "Record not found", 404
+
+    image_path = os.path.join(
+        app.config["UPLOAD_FOLDER"],
+        record["filename"]
+    )
+
+    metadata = extract_metadata(image_path)
+
+    return render_template(
+        "admin_report.html",
+        record=record,
+        metadata=metadata,
+        generated_time=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    )
+
 # ================= HELPERS =================
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS

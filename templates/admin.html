@@ -253,6 +253,7 @@
                             <th class="px-6 py-4 text-left text-xs font-black uppercase tracking-[0.2em] text-slate-500">Filename</th>
                             <th class="px-6 py-4 text-left text-xs font-black uppercase tracking-[0.2em] text-slate-500">Result</th>
                             <th class="px-6 py-4 text-left text-xs font-black uppercase tracking-[0.2em] text-slate-500">Confidence</th>
+                            <th class="px-6 py-4 text-left text-xs font-black uppercase tracking-[0.2em] text-slate-500">Action</th>
                         </tr>
                     </thead>
 
@@ -303,12 +304,23 @@
                                     </div>
                                 </div>
                             </td>
+
+                            <td class="px-6 py-5">
+
+                                <a href="/admin-report/{{ item.id }}"
+                                class="inline-flex items-center justify-center px-4 py-2 rounded-full bg-sky-600 text-white text-xs font-bold hover:bg-sky-700 transition">
+
+                                View
+
+                                </a>
+
+                            </td>
                         </tr>
                         {% endfor %}
 
                         {% if history|length == 0 %}
                         <tr>
-                            <td colspan="5" class="px-6 py-16 text-center">
+                            <td colspan="6" class="px-6 py-16 text-center">
                                 <div class="mx-auto max-w-md">
                                     <div class="mx-auto mb-5 h-16 w-16 rounded-3xl border border-sky-100 bg-sky-50 flex items-center justify-center text-3xl shadow-sm">
                                         🗂️
