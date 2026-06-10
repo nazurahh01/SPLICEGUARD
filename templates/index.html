@@ -577,13 +577,13 @@
         class="inline-flex items-center justify-center px-5 py-3 rounded-full border border-sky-200 bg-white text-slate-700 hover:border-sky-400 hover:text-sky-700 text-sm font-extrabold transition">
        
         New Scan
-        
+
     </a>
     {% endif %}
 
     {% if 'username' in session %}
 
-    <a href="/report/{{ filename }}"
+    <a href="/new-report/{{ filename }}"
         class="inline-flex items-center justify-center px-5 py-3 rounded-full bg-gradient-to-r from-sky-600 to-indigo-600 text-white hover:from-sky-700 hover:to-indigo-700 text-sm font-extrabold transition shadow-xl shadow-sky-200/80">
 
         Generate Report

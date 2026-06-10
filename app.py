@@ -836,7 +836,7 @@ def admin_history():
     )
 
 # ================= REPORT =================
-@app.route("/report/<filename>")
+@app.route("/new-report/<filename>")
 @login_required()
 def generate_report(filename):
     current_user = session["username"]
@@ -859,13 +859,18 @@ def generate_report(filename):
 
         if report_count >= 5:
 
-            flash(
-                "Daily report limit reached. Upgrade to Premium for unlimited forensic reports.",
-                "error"
-            )
+            # Allow report generation from History page
+            if request.referrer and "/history" in request.referrer:
+                pass
 
-            return redirect(request.referrer or url_for("tool"))
+            else:
+                flash(
+                    "Daily report limit reached. Upgrade to Premium for unlimited forensic reports.",
+                    "error"
+                )
 
+                return redirect(request.referrer or url_for("tool"))
+                
     # Get record from database
     if current_role == "admin":
         cursor.execute("""
