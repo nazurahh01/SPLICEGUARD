@@ -185,10 +185,16 @@
 
                             <td class="px-6 py-4">
 
-                                {% if user.subscription_type == "Premium" %}
+                                {% if user.role == "admin" %}
+                                <span class="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold">
+                                    Administrator
+                                </span>
+
+                                {% elif user.subscription_type == "Premium" %}
                                 <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-xs font-bold">
                                     Premium
                                 </span>
+
                                 {% else %}
                                 <span class="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold">
                                     Free
@@ -198,7 +204,15 @@
                             </td>
 
                             <td class="px-6 py-4">
-                                {{ user.subscription_expiry if user.subscription_expiry else "-" }}
+
+                                {% if user.role == "admin" %}
+                                    Unlimited
+                                {% elif user.subscription_expiry %}
+                                    {{ user.subscription_expiry }}
+                                {% else %}
+                                    -
+                                {% endif %}
+
                             </td>
 
                         </tr>
