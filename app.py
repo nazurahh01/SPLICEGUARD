@@ -154,7 +154,7 @@ def index():
 
         if request.method == "POST":
 
-            guest_ip = request.remote_addr
+            guest_ip = request.headers.get("X-Real-IP", request.remote_addr)
 
             conn, cursor = get_db()
             print("CONN STATUS =", conn.is_connected())
@@ -167,7 +167,7 @@ def index():
 
             guest_scan_count = cursor.fetchone()["total"]
 
-            if guest_scan_count >= 15:
+            if guest_scan_count >= 5:
                 error = "Guest scan limit reached. Please register to continue using SpliceGuard."
              
                 return render_template(
