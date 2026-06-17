@@ -310,7 +310,12 @@ def login():
             session["role"] = user["role"]
             session["csrf_token"] = secrets.token_hex(16)
 
-            if user["role"] != "admin":
+            if user["role"] == "admin":
+                flash(
+                    "Welcome back, Administrator!",
+                    "success"
+                )
+            else:
                 flash(
                     f"Welcome back, {user['username']}! You can now save reports and access case history.",
                     "success"
