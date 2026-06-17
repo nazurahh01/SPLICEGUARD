@@ -4,6 +4,7 @@ from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from PIL import Image, ExifTags, UnidentifiedImageError
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
+from werkzeug.exceptions import RequestEntityTooLarge
 from captcha.image import ImageCaptcha
 import numpy as np
 import os, uuid, secrets, random, imghdr, re
@@ -35,6 +36,16 @@ app.config["SESSION_COOKIE_SECURE"] = False
 
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
+@app.errorhandler(RequestEntityTooLarge)
+def handle_large_file(e):
+
+    flash(
+        "Image size exceeds the maximum limit of 10 MB. Please select a smaller image.",
+        "error"
+    )
+
+    return redirect(request.url)
+    
 THRESHOLD = 0.7
 ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png"}
 ALLOWED_IMGHDR = {"jpeg", "png"}
