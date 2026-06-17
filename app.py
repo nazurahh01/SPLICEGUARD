@@ -936,33 +936,6 @@ def admin():
     cursor.execute("SELECT COUNT(DISTINCT user_id) as active_users FROM history")
     active_users = cursor.fetchone()["active_users"]
 
-# ================= ADMIN USER =================
-@app.route("/admin-users")
-@login_required(role="admin")
-def admin_users():
-
-    conn, cursor = get_db()
-
-    cursor.execute("""
-        SELECT
-            id,
-            username,
-            email,
-            role,
-            status,
-            subscription_type,
-            subscription_expiry
-        FROM users
-        ORDER BY id DESC
-    """)
-
-    users = cursor.fetchall()
-
-    return render_template(
-        "admin_users.html",
-        users=users
-    )
-
     # ================= GUEST USERS TODAY =================
     cursor.execute("""
         SELECT COUNT(DISTINCT ip_address) AS guest_today
@@ -1046,6 +1019,33 @@ def admin_users():
         guest_uploads=guest_uploads,
         search=search,
         date=date
+    )
+
+# ================= ADMIN USER =================
+@app.route("/admin-users")
+@login_required(role="admin")
+def admin_users():
+
+    conn, cursor = get_db()
+
+    cursor.execute("""
+        SELECT
+            id,
+            username,
+            email,
+            role,
+            status,
+            subscription_type,
+            subscription_expiry
+        FROM users
+        ORDER BY id DESC
+    """)
+
+    users = cursor.fetchall()
+
+    return render_template(
+        "admin_users.html",
+        users=users
     )
 
 # ================= ADMIN SCAN =================
