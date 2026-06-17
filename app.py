@@ -791,7 +791,7 @@ def buy_premium():
 @login_required()
 def payment_success():
 
-    expiry = datetime.now() + timedelta(days=30)
+    expiry = datetime.now() + timedelta(days=90)
 
     conn, cursor = get_db()
     cursor.execute("""
