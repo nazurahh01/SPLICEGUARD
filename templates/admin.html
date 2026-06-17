@@ -413,6 +413,27 @@
         </div>
     </main>
 
+    <script>
+
+        setTimeout(() => {
+
+            const toast = document.getElementById("toast");
+
+            if (toast) {
+
+                toast.style.transition = "all 0.5s ease";
+                toast.style.opacity = "0";
+                toast.style.transform = "translateY(40px) scale(0.92)";
+
+                setTimeout(() => {
+                    toast.remove();
+                }, 500);
+            }
+
+        }, 2500);
+
+    </script>
+
 </body>
 
 </html>
